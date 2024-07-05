@@ -1,0 +1,74 @@
+﻿@model IEnumerable<CoreMVCProject.Models.Book>
+
+@{
+    ViewData["Title"] = "DisplayAllData";
+}
+@{
+    var baseUrl = $"{Context.Request.Scheme}://{Context.Request.Host}";
+}
+<h1>Book Data</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookCategory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageFileName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BookCategory)
+            </td>
+            <td>
+                    @if (!string.IsNullOrEmpty(item.ImageFileName))
+                    {
+                        <img src="@baseUrl/@item.ImageFileName" class="img-fluid" alt="Book Image" style="max-width: 100px; height: 80px" />
+                    }
+                    else
+                    {
+                        <span>No image available</span>
+                    }
+            </td>
+            <td>
+                Rs. @Html.DisplayFor(modelItem => item.Price)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                    <a asp-action="BookListing" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="BookDetails" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
